@@ -87,3 +87,9 @@ If a payout lands on the 10% chance and hangs in `PROCESSING`, you do not need t
 To cleanly force a specific outcome for testing purposes, temporarily modify `outcome = random.random()` on Line 34 in `backend/payouts/tasks.py`:
 - `outcome = 0.25` (Forces `<0.30` block: `FAILED` and refunds account)
 - `outcome = 0.05` (Forces `<0.10` block: Hangs in `PROCESSING` and triggers background retries)
+
+## Deployment Note
+
+While the system is strictly architected for asynchronous processing via Huey and Redis (as seen in `tasks.py` and the `Procfile`), for the live Render demonstration, tasks are configured to run in **Immediate Mode**. 
+
+This allows the full state machine and ledger logic to be verified in a single-service environment without requiring a dedicated background worker, which is a paid feature on the hosting provider. The underlying code remains fully background-ready and production-compliant.
