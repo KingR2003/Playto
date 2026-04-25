@@ -67,9 +67,8 @@ export const createPayout = (payload: PayoutCreatePayload, idempotencyKey: strin
   api.post<Payout>('/payouts/', payload, {
     headers: { 'Idempotency-Key': idempotencyKey },
   }).then(r => r.data);
-+
-+export const debugAddFunds = (merchantId: number) =>
-+  api.post<{ message: string; new_balance: number }>(`/merchants/${merchantId}/add-funds/`).then(r => r.data);
+export const debugAddFunds = (merchantId: number) =>
+  api.post<{ message: string; new_balance: number }>(`/merchants/${merchantId}/add-funds/`).then(r => r.data);
 
 
 // Utility
