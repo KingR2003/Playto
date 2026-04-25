@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   fetchMerchants, fetchBalance, fetchPayouts, fetchLedger,
   createPayout, formatInr,
-  type Merchant, type Payout, type LedgerEntry
+  type Merchant, type Payout, type LedgerEntry, type BalanceInfo
 } from './api';
 
 // ─── Status Badge ─────────────────────────────────────────────────────────────
@@ -304,7 +304,7 @@ export default function App() {
 
   const mid = selectedMerchant?.id;
 
-  const { data: balance, isLoading: balanceLoading } = useQuery({
+  const { data: balance, isLoading: balanceLoading } = useQuery<BalanceInfo>({
     queryKey: ['balance', mid],
     queryFn: () => fetchBalance(mid!),
     enabled: !!mid,
