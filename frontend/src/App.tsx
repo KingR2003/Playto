@@ -9,7 +9,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import {
   fetchMerchants, fetchBalance, fetchPayouts, fetchLedger,
-  createPayout, formatInr,
+  createPayout, formatInr, debugAddFunds,
   type Merchant, type Payout, type LedgerEntry, type BalanceInfo
 } from './api';
 
@@ -402,7 +402,19 @@ export default function App() {
           <div className="space-y-6 animate-fade-in-up">
             {/* Balance Cards */}
             <div>
-              <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4">Balance Overview</h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Balance Overview</h2>
+                <button
+                  onClick={async () => {
+                    if (!mid) return;
+                    await debugAddFunds(mid);
+                    handleRefresh();
+                  }}
+                  className="text-[10px] font-bold text-indigo-400/80 hover:text-indigo-400 bg-indigo-400/10 hover:bg-indigo-400/20 px-2 py-1 rounded transition-all border border-indigo-400/20"
+                >
+                  + Add Test Funds (₹10,000)
+                </button>
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {balanceLoading ? (
                   [...Array(3)].map((_, i) => <div key={i} className="skeleton h-36 rounded-2xl" />)

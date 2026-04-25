@@ -163,3 +163,24 @@ class PayoutListView(APIView):
         payouts = Payout.objects.filter(merchant=merchant).order_by('-created_at')[:50]
         return Response(PayoutSerializer(payouts, many=True).data)
 
+
+class DebugAddFundsView(APIView):
+    """
+    DEBUG ONLY: Adds 10,000 paise (Rs. 100) to a merchant for testing.
+    In production, this would be removed or protected by admin auth.
+    """
+    def post(self, request, merchant_id):
+        try:
+            merchant = Merchant.objects.get(id=merchant_id)
+        except Merchant.DoesNotExist:
+            return Response({'error': 'Merchant not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        amount = 1000000 # Adds Rs. 10,000.00
+        LedgerEntry.objects.create(
+            merchant=merchant,
+            amount_paise=amount,
+            entry_type='CREDIT',
+            description='Test Funds: Added via Debug Dashboard'
+        )
+        return Response({'message': 'Funds added successfully', 'new_balance': merchant.balance_paise})
+

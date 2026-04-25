@@ -10,4 +10,7 @@ urlpatterns = [
     # Payout endpoints
     path('payouts/', views.PayoutCreateView.as_view(), name='payout-create'),
     path('payouts/<int:merchant_id>/', views.PayoutListView.as_view(), name='payout-list'),
+    
+    # Debug/Test endpoints
+    path('merchants/<int:merchant_id>/add-funds/', views.DebugAddFundsView.as_view(), name='debug-add-funds'),
 ]
