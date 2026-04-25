@@ -89,8 +89,11 @@ DJANGO_HUEY = {
         'default': {
             'huey_class': 'huey.RedisHuey',
             'name': 'playto_payouts',
-            'immediate': False,
+            'immediate': env.bool('HUEY_IMMEDIATE', default=False),
             'url': env('REDIS_URL'),
+            'connection_kwargs': {
+                'ssl_cert_reqs': None,
+            },
             'consumer': {
                 'workers': 4,
                 'worker_type': 'thread',
