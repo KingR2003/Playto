@@ -388,7 +388,13 @@ export default function App() {
       </AnimatePresence>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {!selectedMerchant ? (
+        {!merchantsLoading && merchants.length === 0 ? (
+          <div className="flex flex-col items-center justify-center h-64 text-slate-500">
+            <AlertCircle size={32} className="mb-3 opacity-40" />
+            <p className="text-sm font-medium">No merchants found in database.</p>
+            <p className="text-xs mt-1">Please seed your database to get started.</p>
+          </div>
+        ) : !selectedMerchant ? (
           <div className="flex items-center justify-center h-64">
             <Loader2 size={24} className="animate-spin text-indigo-400" />
           </div>
