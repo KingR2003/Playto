@@ -292,11 +292,10 @@ export default function App() {
   const [successMsg, setSuccessMsg] = useState('');
   const queryClient = useQueryClient();
 
-  const { data: merchants = [], isLoading: merchantsLoading } = useQuery({
+  const { data: merchants = [], isLoading: merchantsLoading } = useQuery<Merchant[]>({
     queryKey: ['merchants'],
     queryFn: fetchMerchants,
-    onSuccess: (data: Merchant[]) => { if (!selectedMerchant && data.length) setSelectedMerchant(data[0]); },
-  } as any);
+  });
 
   // Auto-select first merchant
   React.useEffect(() => {
@@ -312,14 +311,14 @@ export default function App() {
     refetchInterval: 4000,
   });
 
-  const { data: payouts = [], isLoading: payoutsLoading } = useQuery({
+  const { data: payouts = [], isLoading: payoutsLoading } = useQuery<Payout[]>({
     queryKey: ['payouts', mid],
     queryFn: () => fetchPayouts(mid!),
     enabled: !!mid,
     refetchInterval: 4000,
   });
 
-  const { data: ledger = [], isLoading: ledgerLoading } = useQuery({
+  const { data: ledger = [], isLoading: ledgerLoading } = useQuery<LedgerEntry[]>({
     queryKey: ['ledger', mid],
     queryFn: () => fetchLedger(mid!),
     enabled: !!mid,
